@@ -48,7 +48,7 @@ export default async function ContactPage({ params }) {
             {rows.map((r, i) => {
               const inner = (
                 <>
-                  <span style={{ width: 48, height: 48, borderRadius: 14, background: 'var(--lilac-soft)', color: 'var(--violet-deep)', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
+                  <span style={{ width: 48, height: 48, borderRadius: 14, background: 'var(--bg-3)', color: 'var(--accent)', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
                     {r.icon}
                   </span>
                   <span>

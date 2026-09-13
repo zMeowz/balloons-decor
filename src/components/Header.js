@@ -47,7 +47,7 @@ export default function Header({ locale, dict }) {
     <header className={`header ${scrolled ? 'header--scrolled' : ''}`}>
       <div className="container header__inner">
         <Link href={base} className="brand" aria-label="Balloons Decor">
-          <span className="brand__mark">🎈</span>
+          <span className="brand__mark" />
           <span>
             <span className="brand__name">Balloons Decor</span>
             <span className="brand__sub">{dict.brand.city} · декор</span>
@@ -64,6 +64,19 @@ export default function Header({ locale, dict }) {
               {l.label}
             </Link>
           ))}
+          {/* Перемикач мови всередині мобільного меню */}
+          <div className="nav__lang">
+            {locales.map((l) => (
+              <Link
+                key={l}
+                href={swapLocale(l)}
+                className={l === locale ? 'active' : ''}
+                onClick={() => setLocaleCookie(l)}
+              >
+                {l.toUpperCase()}
+              </Link>
+            ))}
+          </div>
         </nav>
 
         <div className="header__actions">

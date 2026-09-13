@@ -7,8 +7,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **Balloons Decor ZP** — a bilingual (Ukrainian primary, Russian secondary) marketing site
 for a premium balloon-decor / photo-zone service in Zaporizhzhia, Ukraine. Built as a
 **Next.js 14 (App Router)** application with a Supabase backend, an admin panel, and
-Telegram lead delivery. The design goal is a hand-crafted, premium, editorial look
-(white + violet with metallic accents) — deliberately not a generic template.
+Telegram lead delivery. The design direction is «Кіно» (cinematic): a dark near-black
+base, full-bleed photography, one hot accent (magenta #ff2e7e), and poster-style
+condensed uppercase headings (Oswald) — deliberately not a generic template.
 
 > The previous static single-page version is archived in `legacy/` for reference only.
 
@@ -55,11 +56,14 @@ npm start        # serve the production build
 
 ## Conventions
 
-- **Design tokens** in `:root` in `globals.css`: `--violet #7c3aed`, `--violet-grad`,
-  metallic `--gold`/`--silver`, `--bg`/`--bg-soft`/`--bg-deep`, `--ink` family.
-- **Fonts** via `next/font/google` in the root layout: Playfair Display (`--font-display`,
-  headings/serif) + Manrope (`--font-sans`, body). Both include the `cyrillic` subset —
-  keep that subset on any font swap or Ukrainian text will break.
+- **Design tokens** in `:root` in `globals.css`: dark base `--bg #0c0910` / `--bg-2` /
+  `--bg-3`, accent `--accent #ff2e7e` (+ `--accent-2`, `--gold`), text `--ink`/`--ink-soft`/
+  `--muted`, hairlines `--line`/`--line-2`. The whole site is dark; sections alternate
+  `--bg` / `.section--soft` (`--bg-2`) / `.section--dark` (`#08060c`).
+- **Fonts** via `next/font/google` in the root layout: Oswald (`--font-display`, condensed
+  uppercase headings — apply via the `h1–h4` rule, which forces `text-transform:uppercase`)
+  + Manrope (`--font-sans`, body). Both include the `cyrillic` subset — keep that subset on
+  any font swap or Ukrainian text will break.
 - **Scroll reveal:** add class `reveal` (+ `reveal-d1/2/3` for stagger); `ScrollReveal`
   adds `in-view`. **Parallax:** add `parallax` + `data-speed="0.08"`; `Parallax` sets `--shift`.
 - **Localized fields** on DB rows use `_uk`/`_ru` suffixes; pick with `locale === 'ru' ? x_ru : x_uk`.
