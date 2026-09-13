@@ -1,0 +1,107 @@
+/* Стилі адмін-панелі — окремі від сайту, спокійні й функціональні. */
+.adm {
+  --a-bg: #0f0a1e;
+  --a-panel: #17112b;
+  --a-panel-2: #1e1738;
+  --a-line: #2c2450;
+  --a-text: #e7e2f5;
+  --a-muted: #a79fc4;
+  --a-violet: #9d5cf5;
+  --a-accent: linear-gradient(120deg, #7c3aed, #b06ef5);
+  min-height: 100vh;
+  background: var(--a-bg);
+  color: var(--a-text);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  display: grid;
+  grid-template-columns: 250px 1fr;
+}
+.adm * { box-sizing: border-box; }
+
+.adm__aside {
+  background: var(--a-panel);
+  border-right: 1px solid var(--a-line);
+  padding: 24px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+.adm__brand { font-weight: 800; font-size: 1.1rem; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+.adm__navlink {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 14px; border-radius: 12px; color: var(--a-muted); font-weight: 600; font-size: 0.95rem;
+  transition: 0.2s; text-decoration: none;
+}
+.adm__navlink:hover { background: var(--a-panel-2); color: var(--a-text); }
+.adm__navlink.active { background: var(--a-accent); color: #fff; }
+.adm__logout { margin-top: auto; }
+.adm__logout button {
+  width: 100%; padding: 11px; border-radius: 12px; border: 1px solid var(--a-line);
+  background: transparent; color: var(--a-muted); font-weight: 600; cursor: pointer; transition: 0.2s;
+}
+.adm__logout button:hover { color: #fff; border-color: var(--a-violet); }
+
+.adm__main { padding: 34px 40px; overflow-x: hidden; }
+.adm__title { font-size: 1.8rem; font-weight: 800; margin: 0 0 6px; }
+.adm__sub { color: var(--a-muted); margin: 0 0 28px; }
+
+.adm__cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 30px; }
+.adm__card { background: var(--a-panel); border: 1px solid var(--a-line); border-radius: 16px; padding: 22px; }
+.adm__card strong { font-size: 2rem; display: block; }
+.adm__card span { color: var(--a-muted); font-size: 0.9rem; }
+
+.adm__warn {
+  background: rgba(245, 200, 66, 0.1); border: 1px solid rgba(245, 200, 66, 0.35);
+  color: #f5d76e; padding: 16px 20px; border-radius: 14px; margin-bottom: 24px; font-size: 0.95rem; line-height: 1.6;
+}
+.adm__ok { background: rgba(53, 208, 127, 0.1); border-color: rgba(53,208,127,0.35); color: #7be0a8; }
+
+.adm-panel { background: var(--a-panel); border: 1px solid var(--a-line); border-radius: 18px; padding: 24px; margin-bottom: 20px; }
+.adm-panel h2 { margin: 0 0 18px; font-size: 1.2rem; }
+
+.adm-field { margin-bottom: 14px; }
+.adm-field label { display: block; font-size: 0.82rem; color: var(--a-muted); margin-bottom: 6px; font-weight: 600; }
+.adm-field input, .adm-field textarea, .adm-field select {
+  width: 100%; padding: 11px 13px; border-radius: 10px; border: 1px solid var(--a-line);
+  background: var(--a-panel-2); color: var(--a-text); font-family: inherit; font-size: 0.95rem;
+}
+.adm-field input:focus, .adm-field textarea:focus { outline: none; border-color: var(--a-violet); }
+.adm-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+.adm-btn {
+  padding: 11px 20px; border-radius: 10px; border: none; background: var(--a-accent); color: #fff;
+  font-weight: 700; cursor: pointer; font-size: 0.95rem; transition: 0.2s;
+}
+.adm-btn:hover { filter: brightness(1.1); }
+.adm-btn--ghost { background: transparent; border: 1px solid var(--a-line); color: var(--a-muted); }
+.adm-btn--danger { background: transparent; border: 1px solid #5a2440; color: #f08a8a; padding: 8px 14px; font-size: 0.85rem; }
+.adm-btn--danger:hover { background: #3a1526; }
+
+.adm-list { display: flex; flex-direction: column; gap: 12px; }
+.adm-item {
+  display: flex; align-items: center; gap: 16px; background: var(--a-panel); border: 1px solid var(--a-line);
+  border-radius: 14px; padding: 14px 16px;
+}
+.adm-item img { width: 64px; height: 64px; object-fit: cover; border-radius: 10px; flex-shrink: 0; }
+.adm-item__body { flex: 1; min-width: 0; }
+.adm-item__body h3 { margin: 0 0 4px; font-size: 1.05rem; }
+.adm-item__body p { margin: 0; color: var(--a-muted); font-size: 0.85rem; }
+.adm-badge { font-size: 0.72rem; padding: 3px 9px; border-radius: 999px; background: var(--a-panel-2); color: var(--a-muted); }
+
+.adm-login {
+  grid-template-columns: 1fr; place-items: center; min-height: 100vh; display: grid;
+}
+.adm-login__box { background: var(--a-panel); border: 1px solid var(--a-line); border-radius: 20px; padding: 38px; width: 100%; max-width: 380px; }
+.adm-login__box h1 { margin: 0 0 8px; font-size: 1.5rem; }
+.adm-login__box p { color: var(--a-muted); margin: 0 0 24px; font-size: 0.9rem; }
+
+@media (max-width: 780px) {
+  .adm { grid-template-columns: 1fr; }
+  .adm__aside { position: static; height: auto; flex-direction: row; flex-wrap: wrap; }
+  .adm__logout { margin: 0; }
+  .adm__main { padding: 24px 18px; }
+  .adm__cards { grid-template-columns: 1fr 1fr; }
+  .adm-row { grid-template-columns: 1fr; }
+}

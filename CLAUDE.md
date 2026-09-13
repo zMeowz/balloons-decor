@@ -4,37 +4,78 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-A static single-page website (business card site) for **Balloons Decor ZP** — a balloon decoration and photo zone service in Zaporizhzhia, Ukraine. The site is in Ukrainian.
+**Balloons Decor ZP** — a bilingual (Ukrainian primary, Russian secondary) marketing site
+for a premium balloon-decor / photo-zone service in Zaporizhzhia, Ukraine. Built as a
+**Next.js 14 (App Router)** application with a Supabase backend, an admin panel, and
+Telegram lead delivery. The design goal is a hand-crafted, premium, editorial look
+(white + violet with metallic accents) — deliberately not a generic template.
 
-## Deployment
+> The previous static single-page version is archived in `legacy/` for reference only.
 
-No build step. Deploy by uploading all files and the `assets/` folder to the hosting root (`public_html` or `www`). Open the domain in a browser to verify.
+## Commands
+
+```bash
+npm install      # install deps
+npm run dev      # dev server (http://localhost:3000)
+npm run build    # production build (run this to validate before pushing)
+npm start        # serve the production build
+```
 
 ## Architecture
 
-Four files make up the entire site:
+- **Rendering:** App Router. The root layout `src/app/layout.js` renders `<html>` and
+  reads the `x-locale` request header (set by `src/middleware.js`) to set `lang`. Because
+  of this, site pages are server-rendered on demand (dynamic), which keeps `lang` correct
+  per locale and reflects admin edits immediately.
+- **i18n:** URL-prefixed locales `/uk` and `/ru`. `middleware.js` redirects `/` → locale
+  (cookie `NEXT_LOCALE` or `accept-language`) and sets `x-locale`. All copy lives in
+  `src/i18n/dictionaries/{uk,ru}.js`; `getDictionary(locale)` returns the right one.
+- **Data layer:** `src/lib/data.js` (`getWorks`, `getPrices`, `getContent`) always has a
+  fallback — if Supabase env is missing OR a query fails/returns empty, it returns demo
+  data from `src/lib/seed.js`. The site therefore renders fully even with no backend.
+- **Supabase:** `src/lib/supabase.js` — `getPublicClient()` (anon, read) for the site;
+  `getAdminClient()` (service_role, server-only) for admin writes + Storage uploads.
+  Schema + RLS in `supabase/schema.sql`. Photos go in a **public** Storage bucket `works`.
+- **Admin:** `/admin` (outside the `[locale]` tree). Password auth via HMAC-signed
+  httpOnly cookie (`src/lib/auth.js`, `ADMIN_PASSWORD` + `ADMIN_SESSION_SECRET`). Pages
+  check `isAuthenticated()` and `redirect('/admin/login')`. Mutations are **server actions**
+  in `src/app/admin/actions.js` (guarded by `requireAuth()`), which call `revalidatePath`.
+- **Leads:** `POST /api/lead` validates, saves to `leads` (if Supabase set) and sends a
+  Telegram message (if `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` set). Never hard-fails.
+- **SEO:** per-locale metadata + `alternates.languages`, `src/app/sitemap.js`,
+  `src/app/robots.js`, JSON-LD `LocalBusiness` on the home page.
 
-- `index.html` — single page with all sections: hero, services, gallery, process, Instagram CTA, footer/contacts
-- `styles.css` — all styles including CSS custom properties, responsive breakpoints (980px, 720px), and animations
-- `script.js` — three behaviors: mobile nav toggle, scroll reveal via IntersectionObserver, and parallax on `.parallax[data-speed]` elements
-- `assets/` — gallery photos (`gallery-1.jpg` through `gallery-5.jpg`) referenced directly in `index.html`
+## Key files
 
-## Key Design Tokens (CSS variables)
+- `src/app/globals.css` — the entire design system (tokens, typography, all component
+  styles, animations, responsive). Plain CSS with semantic class names, no framework.
+- `src/components/` — `Header`, `Footer`, `Hero`, `StackedDeck` (signature swipe deck),
+  `LeadForm`, `WorksGrid`, `ScrollReveal`, `Parallax`, `icons.js`, `admin/AdminShell`.
+- `src/app/admin/admin.css` — separate admin styling (dark, functional).
 
-Defined in `:root` in `styles.css`:
-- `--accent`: `#a855f7` (purple), `--accent-2`: `#ff4fb4` (pink) — used for gradients throughout
-- `--bg-soft`: `#faf7ff`, `--muted`: `#6f6a7d`, `--shadow`: purple-tinted box shadow
+## Conventions
 
-## Scroll Reveal Pattern
+- **Design tokens** in `:root` in `globals.css`: `--violet #7c3aed`, `--violet-grad`,
+  metallic `--gold`/`--silver`, `--bg`/`--bg-soft`/`--bg-deep`, `--ink` family.
+- **Fonts** via `next/font/google` in the root layout: Playfair Display (`--font-display`,
+  headings/serif) + Manrope (`--font-sans`, body). Both include the `cyrillic` subset —
+  keep that subset on any font swap or Ukrainian text will break.
+- **Scroll reveal:** add class `reveal` (+ `reveal-d1/2/3` for stagger); `ScrollReveal`
+  adds `in-view`. **Parallax:** add `parallax` + `data-speed="0.08"`; `Parallax` sets `--shift`.
+- **Localized fields** on DB rows use `_uk`/`_ru` suffixes; pick with `locale === 'ru' ? x_ru : x_uk`.
+- After changing content pages, run `npm run build` to validate before committing.
 
-Elements with class `.reveal` start hidden (`opacity:0; transform:translateY(32px)`) and animate in when they enter the viewport. Add `.reveal-delay` or `.reveal-delay-2` for staggered timing. The `IntersectionObserver` in `script.js` adds `.in-view` once and stops observing.
+## Media drop-ins (auto-detected)
 
-## Parallax Pattern
+- `public/media/hero.mp4` → becomes the hero background video (else image collage).
+- `public/media/anya.jpg` → founder photo on the About page (else a work image).
+- Work photos are managed in the admin panel (uploaded to Supabase Storage).
 
-Add class `parallax` and `data-speed="0.08"` (or any float) to an element. `script.js` sets `--shift` CSS variable on scroll; the element must use `transform: translateY(var(--shift, 0px))` in CSS.
+## Setup / deployment
 
-## Contact Details (editable in `index.html`)
+Full step-by-step (Supabase, Telegram, Vercel, domain, ads) for a non-technical owner is
+in `SETUP.md`. `.env.example` lists every environment variable. Deploy target: Vercel.
 
-- Phone: `+38 (099) 354 60 48`
-- Instagram: `https://www.instagram.com/balloons_decor_zp/`
-- Telegram link: currently placeholder (`https://t.me/`) — needs a real username
+## Contact details (now editable in admin → Contacts; defaults in `src/lib/seed.js`)
+
+- Phone: `+38 (099) 354 60 48` · Instagram: `balloons_decor_zp` · Owner: Аня Оксьом
