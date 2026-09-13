@@ -44,7 +44,7 @@ export default async function AboutPage({ params }) {
           <div className="reveal in-view reveal-d2">
             <span className="eyebrow">{dict.aboutPage.kicker}</span>
             <h1 style={{ fontSize: 'clamp(2.6rem, 6vw, 4.4rem)', margin: '16px 0 18px' }}>{dict.aboutPage.title}</h1>
-            <p style={{ fontSize: '1.2rem', color: 'var(--ink-soft)', fontFamily: 'var(--font-display)', fontStyle: 'italic' }}>
+            <p style={{ fontSize: '1.25rem', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.5 }}>
               {dict.aboutPage.lead}
             </p>
             {dict.aboutPage.body.map((p, i) => (

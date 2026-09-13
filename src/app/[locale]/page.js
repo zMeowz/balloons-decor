@@ -165,7 +165,7 @@ export default async function HomePage({ params }) {
         <div className="orb orb--gold" style={{ width: 360, height: 360, bottom: '-20%', right: '-8%' }} />
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div className="section-head section-head--center reveal">
-            <span className="eyebrow" style={{ color: 'var(--lilac)' }}>{dict.testimonials.kicker}</span>
+            <span className="eyebrow">{dict.testimonials.kicker}</span>
             <h2>{dict.testimonials.title}</h2>
           </div>
           <div className="reviews__grid">

@@ -1,11 +1,10 @@
 import { headers } from 'next/headers';
-import { Playfair_Display, Manrope } from 'next/font/google';
+import { Oswald, Manrope } from 'next/font/google';
 import './globals.css';
 
-const display = Playfair_Display({
+const display = Oswald({
   subsets: ['latin', 'cyrillic'],
-  weight: ['500', '600', '700'],
-  style: ['normal', 'italic'],
+  weight: ['400', '500', '600', '700'],
   variable: '--font-display',
   display: 'swap',
 });
