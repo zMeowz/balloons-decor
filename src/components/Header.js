@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { locales } from '@/i18n/config';
+import ThemeToggle from './ThemeToggle';
 
 export default function Header({ locale, dict }) {
   const pathname = usePathname();
@@ -80,6 +81,7 @@ export default function Header({ locale, dict }) {
         </nav>
 
         <div className="header__actions">
+          <ThemeToggle />
           <div className="lang" role="group" aria-label="Мова / Язык">
             {locales.map((l) => (
               <Link
