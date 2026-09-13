@@ -3,12 +3,24 @@
 import { useRef, useState } from 'react';
 import { IconChevronLeft, IconChevronRight } from './icons';
 
-// Колода фото-карток, які можна гортати свайпом або кнопками.
+// Магнітна колода: картки лежать стопкою внахлéст (з легким поворотом),
+// верхню можна «кинути» свайпом — вона відлітає, а наступна пружинисто
+// стає на її місце.
+const PRESETS = [
+  { y: 0, s: 1, r: 0 },       // 0 — верхня
+  { y: 20, s: 0.94, r: 4 },   // 1
+  { y: 40, s: 0.88, r: -5 },  // 2
+  { y: 60, s: 0.82, r: 3 },   // 3
+];
+const lerp = (a, b, t) => a + (b - a) * t;
+
 export default function StackedDeck({ works, locale, dict }) {
   const [index, setIndex] = useState(0);
   const [drag, setDrag] = useState(0);
-  const [animating, setAnimating] = useState(false);
+  const [dragging, setDragging] = useState(false);
+  const [fly, setFly] = useState(0); // напрямок відльоту: -1 / 0 / 1
   const startX = useRef(null);
+  const busy = useRef(false);
   const n = works.length;
 
   if (!n) return null;
@@ -16,14 +28,24 @@ export default function StackedDeck({ works, locale, dict }) {
   const title = (w) => (locale === 'ru' ? w.title_ru : w.title_uk) || w.title_uk;
   const desc = (w) => (locale === 'ru' ? w.description_ru : w.description_uk) || '';
 
-  const go = (dir) => {
-    setIndex((i) => (i + dir + n) % n);
-    setDrag(0);
+  // step: +1 наступна / -1 попередня; flyDir: куди відлітає верхня
+  const move = (step, flyDir) => {
+    if (busy.current) return;
+    busy.current = true;
+    setFly(flyDir);
+    setDragging(false);
+    window.setTimeout(() => {
+      setIndex((i) => (i + step + n) % n);
+      setFly(0);
+      setDrag(0);
+      busy.current = false;
+    }, 360);
   };
 
   const onDown = (e) => {
+    if (busy.current) return;
     startX.current = e.clientX ?? e.touches?.[0]?.clientX ?? null;
-    setAnimating(false);
+    setDragging(true);
   };
   const onMove = (e) => {
     if (startX.current === null) return;
@@ -32,17 +54,17 @@ export default function StackedDeck({ works, locale, dict }) {
   };
   const onUp = () => {
     if (startX.current === null) return;
-    setAnimating(true);
-    if (drag > 90) go(-1);
-    else if (drag < -90) go(1);
-    else setDrag(0);
     startX.current = null;
+    if (drag > 90) move(1, 1);
+    else if (drag < -90) move(1, -1);
+    else { setDragging(false); setDrag(0); } // магнітне повернення
   };
 
-  // Показуємо 3 картки в стеку
+  const progress = dragging ? Math.min(Math.abs(drag) / 150, 1) : 0;
+
   const stack = [];
-  for (let i = 0; i < Math.min(3, n); i++) {
-    stack.push({ work: works[(index + i) % n], depth: i });
+  for (let d = 0; d < Math.min(4, n); d++) {
+    stack.push({ work: works[(index + d) % n], depth: d });
   }
 
   return (
@@ -54,22 +76,37 @@ export default function StackedDeck({ works, locale, dict }) {
           .map(({ work, depth }) => {
             const isTop = depth === 0;
             let transform;
-            let transition = animating || !isTop ? 'transform 0.5s cubic-bezier(0.22,1,0.36,1)' : 'none';
+            let transition;
+            let opacity = 1;
+
             if (isTop) {
-              transform = `translateX(${drag}px) rotate(${drag * 0.04}deg)`;
+              if (fly !== 0) {
+                transform = `translateX(${fly * 150}%) translateY(-24px) rotate(${fly * 16}deg)`;
+                transition = 'transform 0.36s cubic-bezier(0.4,0,0.7,0.2), opacity 0.36s ease';
+                opacity = 0;
+              } else if (dragging) {
+                transform = `translateX(${drag}px) rotate(${drag * 0.045}deg)`;
+                transition = 'none';
+              } else {
+                transform = 'translateX(0) rotate(0deg)';
+                transition = 'transform 0.55s cubic-bezier(0.34,1.56,0.64,1)';
+              }
             } else {
-              transform = `translateY(${depth * 16}px) scale(${1 - depth * 0.05})`;
+              const p = depth === 1 ? progress : 0; // передня з-під низу підіймається до верху
+              const base = PRESETS[depth];
+              const y = lerp(base.y, PRESETS[0].y, p);
+              const s = lerp(base.s, 1, p);
+              const r = lerp(base.r, 0, p);
+              transform = `translateY(${y}px) scale(${s}) rotate(${r}deg)`;
+              transition = dragging ? 'transform 0.15s linear' : 'transform 0.55s cubic-bezier(0.34,1.56,0.64,1)';
+              opacity = depth > 2 ? 0.6 : 1;
             }
+
             return (
               <article
                 key={work.id + '-' + depth}
                 className="deck__card"
-                style={{
-                  transform,
-                  transition,
-                  zIndex: 10 - depth,
-                  opacity: depth > 1 ? 0.7 : 1,
-                }}
+                style={{ transform, transition, opacity, zIndex: 10 - depth }}
                 onPointerDown={isTop ? onDown : undefined}
                 onPointerMove={isTop ? onMove : undefined}
                 onPointerUp={isTop ? onUp : undefined}
@@ -87,7 +124,7 @@ export default function StackedDeck({ works, locale, dict }) {
       </div>
 
       <div className="deck__controls">
-        <button className="deck__btn" onClick={() => { setAnimating(true); go(-1); }} aria-label="Попередня">
+        <button className="deck__btn" onClick={() => move(-1, 1)} aria-label="Попередня">
           <IconChevronLeft />
         </button>
         <div className="deck__dots">
@@ -95,7 +132,7 @@ export default function StackedDeck({ works, locale, dict }) {
             <span key={i} className={`deck__dot ${i === index ? 'active' : ''}`} />
           ))}
         </div>
-        <button className="deck__btn" onClick={() => { setAnimating(true); go(1); }} aria-label="Наступна">
+        <button className="deck__btn" onClick={() => move(1, -1)} aria-label="Наступна">
           <IconChevronRight />
         </button>
       </div>

@@ -76,6 +76,7 @@ h1, h2, h3, h4 {
   text-transform: uppercase;
   margin: 0;
   color: var(--ink);
+  overflow-wrap: break-word;
 }
 
 .eyebrow {
@@ -456,6 +457,7 @@ em.accent { font-style: normal; color: var(--accent); }
   .nav__cta { display: none; }
   .brand__sub { display: none; }
   .brand__name { font-size: 1.05rem; letter-spacing: 0.08em; }
+  .intro__points { grid-template-columns: 1fr; }
   .hero__row { align-items: flex-start; }
   .hero__title { font-size: clamp(2.05rem, 9vw, 3rem); }
   .hero__inner { padding-top: 104px; }
