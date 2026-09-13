@@ -1,4 +1,4 @@
-import { headers } from 'next/headers';
+import { headers, cookies } from 'next/headers';
 import { Oswald, Manrope } from 'next/font/google';
 import './globals.css';
 
@@ -29,8 +29,10 @@ export const viewport = {
 export default function RootLayout({ children }) {
   // Мову для <html lang> бере з заголовка, який виставляє middleware.
   const locale = headers().get('x-locale') || 'uk';
+  // Тема з cookie (темна за замовчуванням) — щоб не було «моргання» при завантаженні.
+  const theme = cookies().get('theme')?.value === 'light' ? 'light' : 'dark';
   return (
-    <html lang={locale} className={`${display.variable} ${sans.variable}`}>
+    <html lang={locale} data-theme={theme} className={`${display.variable} ${sans.variable}`}>
       <body>{children}</body>
     </html>
   );
