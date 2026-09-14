@@ -100,8 +100,22 @@ export async function GET() {
   let leads_table = 'not checked';
   const supabase = getAdminClient();
   if (supabase) {
-    const { error } = await supabase.from('leads').select('id', { count: 'exact', head: true });
-    leads_table = error ? 'ERROR: ' + error.message : 'ok';
+    // Тестовий запис у таблицю заявок (одразу видаляємо) — щоб побачити реальну причину.
+    const { data, error } = await supabase
+      .from('leads')
+      .insert({ name: '__healthcheck__', phone: '0000000000', source: 'healthcheck', status: 'new' })
+      .select('id')
+      .single();
+    if (error) {
+      leads_table =
+        'INSERT ERROR | message: ' + (error.message || '(empty)') +
+        ' | code: ' + (error.code || '-') +
+        ' | details: ' + (error.details || '-') +
+        ' | hint: ' + (error.hint || '-');
+    } else {
+      leads_table = 'ok (insert works)';
+      await supabase.from('leads').delete().eq('id', data.id);
+    }
   } else {
     leads_table = 'no service_role key';
   }
