@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { locales } from '@/i18n/config';
 import ThemeToggle from './ThemeToggle';
-import { IconBalloonMark } from './icons';
+import BrandLogo from './BrandLogo';
 
 export default function Header({ locale, dict, logo }) {
   const pathname = usePathname();
@@ -53,13 +53,7 @@ export default function Header({ locale, dict, logo }) {
             // eslint-disable-next-line @next/next/no-img-element
             <img className="brand__logo" src={logo} alt="Balloons Decor" />
           ) : (
-            <>
-              <IconBalloonMark className="brand__markicon" />
-              <span>
-                <span className="brand__name">Balloons Decor</span>
-                <span className="brand__sub">{dict.brand.city} · декор</span>
-              </span>
-            </>
+            <BrandLogo className="brand__logo-lockup" />
           )}
         </Link>
 
