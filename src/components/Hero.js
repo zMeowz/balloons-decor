@@ -3,6 +3,7 @@ import path from 'path';
 import Link from 'next/link';
 import { IconArrow } from './icons';
 import Counter from './Counter';
+import HeroVideo from './HeroVideo';
 
 function heroVideoExists() {
   try {
@@ -23,9 +24,7 @@ export default function Hero({ locale, dict, works }) {
     <section className="hero">
       <div className="hero__bg" aria-hidden="true">
         {hasVideo ? (
-          <video autoPlay muted loop playsInline poster={bg?.image_url}>
-            <source src="/media/hero.mp4" type="video/mp4" />
-          </video>
+          <HeroVideo src="/media/hero.mp4" />
         ) : (
           // eslint-disable-next-line @next/next/no-img-element
           bg && <img src={bg.image_url} alt="" />
