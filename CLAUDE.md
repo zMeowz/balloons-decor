@@ -9,7 +9,7 @@ for a premium balloon-decor / photo-zone service in Zaporizhzhia, Ukraine. Built
 **Next.js 14 (App Router)** application with a Supabase backend, an admin panel, and
 Telegram lead delivery. The design direction is «Кіно» (cinematic): a dark near-black
 base, full-bleed photography, one hot accent (magenta #ff2e7e), and poster-style
-condensed uppercase headings (Oswald) — deliberately not a generic template.
+bold uppercase headings (Montserrat) — deliberately not a generic template.
 
 > The previous static single-page version is archived in `legacy/` for reference only.
 
@@ -60,7 +60,7 @@ npm start        # serve the production build
   `--bg-3`, accent `--accent #ff2e7e` (+ `--accent-2`, `--gold`), text `--ink`/`--ink-soft`/
   `--muted`, hairlines `--line`/`--line-2`. The whole site is dark; sections alternate
   `--bg` / `.section--soft` (`--bg-2`) / `.section--dark` (`#08060c`).
-- **Fonts** via `next/font/google` in the root layout: Oswald (`--font-display`, condensed
+- **Fonts** via `next/font/google` in the root layout: Montserrat (`--font-display`, bold
   uppercase headings — apply via the `h1–h4` rule, which forces `text-transform:uppercase`)
   + Manrope (`--font-sans`, body). Both include the `cyrillic` subset — keep that subset on
   any font swap or Ukrainian text will break.
