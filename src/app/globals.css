@@ -192,6 +192,8 @@ em.accent { font-style: normal; color: var(--accent); }
   flex-shrink: 0;
 }
 .brand__logo { display: block; height: 42px; width: auto; max-width: 200px; object-fit: contain; }
+.brand__stack { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 3px; }
+.brand__city { font-family: var(--font-sans); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.34em; text-transform: uppercase; color: var(--muted); padding-left: 2px; }
 .brand__logo-lockup { display: block; height: 38px; width: auto; color: var(--ink); }
 .brandlogo__txt { fill: var(--ink); font-family: var(--font-display); font-weight: 800; }
 .brandlogo__accent { fill: var(--accent); font-family: var(--font-display); font-weight: 800; }
