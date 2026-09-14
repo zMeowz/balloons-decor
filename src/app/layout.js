@@ -1,10 +1,10 @@
 import { headers, cookies } from 'next/headers';
-import { Oswald, Manrope } from 'next/font/google';
+import { Montserrat, Manrope } from 'next/font/google';
 import './globals.css';
 
-const display = Oswald({
+const display = Montserrat({
   subsets: ['latin', 'cyrillic'],
-  weight: ['400', '500', '600', '700'],
+  weight: ['300', '500', '600', '700', '800'],
   variable: '--font-display',
   display: 'swap',
 });
