@@ -1,7 +1,7 @@
 import { getDictionary } from '@/i18n';
 import { getContent } from '@/lib/data';
 import LeadForm from '@/components/LeadForm';
-import { IconPhone, IconMapPin, IconClock, IconInstagram, IconTelegram } from '@/components/icons';
+import { IconPhone, IconMapPin, IconClock, IconInstagramColor, IconTelegramColor, IconViber } from '@/components/icons';
 
 export async function generateMetadata({ params }) {
   const dict = getDictionary(params.locale);
@@ -67,12 +67,17 @@ export default async function ContactPage({ params }) {
           <div style={{ display: 'flex', gap: 12, marginTop: 28 }}>
             {content.instagram && (
               <a href={content.instagram} target="_blank" rel="noopener" className="btn btn--ghost">
-                <IconInstagram /> Instagram
+                <IconInstagramColor /> Instagram
               </a>
             )}
             {content.telegram && (
               <a href={content.telegram} target="_blank" rel="noopener" className="btn btn--ghost">
-                <IconTelegram /> Telegram
+                <IconTelegramColor /> Telegram
+              </a>
+            )}
+            {content.phone_raw && (
+              <a href={`viber://chat?number=%2B${content.phone_raw}`} className="btn btn--ghost">
+                <IconViber /> Viber
               </a>
             )}
           </div>

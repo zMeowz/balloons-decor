@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { IconInstagram, IconTelegram, IconWhatsapp, IconPhone, IconMapPin } from './icons';
+import { IconInstagramColor, IconTelegramColor, IconViber, IconPhone, IconMapPin } from './icons';
 
 export default function Footer({ locale, dict, content }) {
   const base = `/${locale}`;
@@ -14,13 +14,13 @@ export default function Footer({ locale, dict, content }) {
             <p className="footer__about">{dict.footer.about}</p>
             <div className="footer__social" style={{ marginTop: 20 }}>
               {content.instagram && (
-                <a href={content.instagram} target="_blank" rel="noopener" aria-label="Instagram"><IconInstagram /></a>
+                <a href={content.instagram} target="_blank" rel="noopener" aria-label="Instagram"><IconInstagramColor /></a>
               )}
               {content.telegram && (
-                <a href={content.telegram} target="_blank" rel="noopener" aria-label="Telegram"><IconTelegram /></a>
+                <a href={content.telegram} target="_blank" rel="noopener" aria-label="Telegram"><IconTelegramColor /></a>
               )}
               {content.phone_raw && (
-                <a href={`https://wa.me/${content.phone_raw}`} target="_blank" rel="noopener" aria-label="WhatsApp"><IconWhatsapp /></a>
+                <a href={`viber://chat?number=%2B${content.phone_raw}`} aria-label="Viber"><IconViber /></a>
               )}
             </div>
           </div>

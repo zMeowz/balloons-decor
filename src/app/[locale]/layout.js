@@ -6,10 +6,10 @@ import { getDictionary } from '@/i18n';
 import { getContent } from '@/lib/data';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import ScrollReveal from '@/components/ScrollReveal';
 import Parallax from '@/components/Parallax';
 import ScrollProgress from '@/components/ScrollProgress';
-import { IconWhatsapp } from '@/components/icons';
+import BackToTop from '@/components/BackToTop';
+import { IconViber } from '@/components/icons';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://balloonsdecor.com.ua';
 
@@ -82,17 +82,16 @@ export default async function LocaleLayout({ children, params }) {
       {content.phone_raw && (
         <a
           className="float-cta"
-          href={`https://wa.me/${content.phone_raw}`}
-          target="_blank"
-          rel="noopener"
-          aria-label="WhatsApp"
+          href={`viber://chat?number=%2B${content.phone_raw}`}
+          aria-label="Viber"
         >
-          <IconWhatsapp />
+          <IconViber />
           <span>{dict.nav.order}</span>
         </a>
       )}
 
-      <ScrollReveal />
+      <BackToTop />
+
       <Parallax />
     </>
   );

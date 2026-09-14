@@ -73,6 +73,58 @@ export function IconMapPin(props) {
   );
 }
 
+// ── Кольорові фірмові іконки соцмереж/месенджерів ──
+export function IconInstagramColor(props) {
+  return (
+    <svg viewBox="0 0 48 48" width="26" height="26" {...props}>
+      <defs>
+        <radialGradient id="igg" cx="30%" cy="107%" r="150%">
+          <stop offset="0%" stopColor="#ffd776" />
+          <stop offset="25%" stopColor="#f3a145" />
+          <stop offset="50%" stopColor="#ef4770" />
+          <stop offset="70%" stopColor="#c32aa3" />
+          <stop offset="100%" stopColor="#7d3cff" />
+        </radialGradient>
+      </defs>
+      <rect width="48" height="48" rx="13" fill="url(#igg)" />
+      <rect x="12.5" y="12.5" width="23" height="23" rx="7.5" fill="none" stroke="#fff" strokeWidth="3" />
+      <circle cx="24" cy="24" r="6.2" fill="none" stroke="#fff" strokeWidth="3" />
+      <circle cx="32.6" cy="15.4" r="1.9" fill="#fff" />
+    </svg>
+  );
+}
+
+export function IconViber(props) {
+  return (
+    <svg viewBox="0 0 48 48" width="26" height="26" {...props}>
+      <rect width="48" height="48" rx="13" fill="#7360f2" />
+      <g transform="translate(11.5 10) scale(1.07)" fill="#fff">
+        <path d="M14 3.2c-4.9 0-8.9 3.2-8.9 8v.9c0 4.8 4 8 8.9 8 .5 0 1.1 0 1.6-.1l3.1 2.4c.4.3 1 0 1-.5v-2.8c2-1.4 3.2-3.6 3.2-6.1v-.9c0-4.8-4-8-8.9-8H14z" opacity="0.18" />
+        <path d="M13.6 4.5c-4.4 0-8 2.9-8 7.3v.8c0 2.5 1.2 4.6 3 6v3c0 .5.6.8 1 .5l2.8-2.2c.4.1.8.1 1.2.1 4.4 0 8-2.9 8-7.3v-.8c0-4.4-3.6-7.3-8-7.3z" />
+      </g>
+      <g transform="translate(11.5 10) scale(1.07)" fill="#7360f2">
+        <path d="M12.5 8.2c1.9-.3 3.6.9 3.9 2.7M12.9 9.9c1 0 1.7.7 1.8 1.6" fill="none" stroke="#7360f2" strokeWidth="0.9" strokeLinecap="round" />
+        <path d="M10.4 9.1c.3-.2.7-.1.9.1l.9 1.2c.2.3.2.6-.1.9l-.4.4c-.2.2-.2.4-.1.6.3.6 1.1 1.4 1.7 1.7.2.1.4.1.6-.1l.4-.4c.3-.3.6-.3.9-.1l1.2.9c.2.2.3.6.1.9-.4.7-1.2 1.2-1.9 1-.2 0-2-.5-3.8-2.3s-2.2-3.6-2.3-3.8c-.2-.7.3-1.5 1-1.9z" />
+      </g>
+    </svg>
+  );
+}
+
+export function IconTelegramColor(props) {
+  return (
+    <svg viewBox="0 0 48 48" width="26" height="26" {...props}>
+      <defs>
+        <linearGradient id="tgg" x1="24" y1="0" x2="24" y2="48" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#37bbfe" />
+          <stop offset="100%" stopColor="#007dbb" />
+        </linearGradient>
+      </defs>
+      <circle cx="24" cy="24" r="24" fill="url(#tgg)" />
+      <path d="M10.9 23.6l22.5-8.7c1.05-.38 1.96.25 1.62 1.84l-3.83 18.06c-.28 1.28-1.05 1.6-2.13.99l-5.9-4.35-2.85 2.74c-.31.31-.58.58-1.19.58l.42-6.02 10.96-9.9c.48-.42-.1-.66-.74-.24l-13.55 8.53-5.84-1.82c-1.27-.4-1.29-1.27.27-1.88z" fill="#fff" />
+    </svg>
+  );
+}
+
 export function IconBalloonMark(props) {
   // Логотип-знак: кластер із трьох кульок (маджента + золото + рожевий) зі стрічками.
   return (
