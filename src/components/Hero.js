@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import Link from 'next/link';
 import { IconArrow } from './icons';
+import Counter from './Counter';
 
 function heroVideoExists() {
   try {
@@ -32,16 +33,16 @@ export default function Hero({ locale, dict, works }) {
       </div>
       <div className="hero__veil" aria-hidden="true" />
 
-      <div className="container hero__inner">
+      <div className="container hero__inner hero-anim">
         <span className="hero__kicker">{dict.hero.kicker}</span>
 
         <h1 className="hero__title">
-          <span className="line reveal in-view">{dict.hero.titleTop}</span>
-          <span className="line line--thin reveal in-view reveal-d1">{dict.hero.titleBottom}</span>
-          <span className="line line--accent reveal in-view reveal-d2">{dict.hero.titleAccent}</span>
+          <span className="line">{dict.hero.titleTop}</span>
+          <span className="line line--thin">{dict.hero.titleBottom}</span>
+          <span className="line line--accent">{dict.hero.titleAccent}</span>
         </h1>
 
-        <div className="hero__row reveal in-view reveal-d2">
+        <div className="hero__row">
           <p className="hero__lead">{dict.hero.lead}</p>
           <div className="hero__actions">
             <Link href={`${base}/contact`} className="btn btn--primary btn--lg">
@@ -53,10 +54,10 @@ export default function Hero({ locale, dict, works }) {
           </div>
         </div>
 
-        <div className="hero__stats reveal in-view reveal-d3">
+        <div className="hero__stats">
           {dict.hero.stats.map((s, i) => (
             <div className="hero__stat" key={i}>
-              <strong>{s.value}<span className="suf">{s.suffix}</span></strong>
+              <strong><Counter value={s.value} /><span className="suf">{s.suffix}</span></strong>
               <p>{s.label}</p>
             </div>
           ))}

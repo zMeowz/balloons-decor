@@ -4,6 +4,7 @@ import { getWorks, getPrices, getContent } from '@/lib/data';
 import Hero from '@/components/Hero';
 import StackedDeck from '@/components/StackedDeck';
 import LeadForm from '@/components/LeadForm';
+import Counter from '@/components/Counter';
 import { IconArrow } from '@/components/icons';
 
 export default async function HomePage({ params }) {
@@ -47,7 +48,7 @@ export default async function HomePage({ params }) {
       {/* Чому ми */}
       <section className="section">
         <div className="container intro__grid">
-          <div className="intro__text reveal">
+          <div className="intro__text reveal reveal--l">
             <span className="eyebrow">{dict.intro.kicker}</span>
             <h2 style={{ fontSize: 'clamp(2rem, 4.4vw, 3.2rem)', margin: '18px 0 16px' }}>{dict.intro.title}</h2>
             <p style={{ color: 'var(--ink-soft)', fontSize: '1.08rem' }}>{dict.intro.text}</p>
@@ -61,11 +62,11 @@ export default async function HomePage({ params }) {
               ))}
             </div>
           </div>
-          <div className="intro__visual reveal reveal-d2">
+          <div className="intro__visual reveal reveal--r reveal-d2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={works[2]?.image_url || works[0]?.image_url} alt={dict.intro.title} />
             <div className="intro__badge">
-              <strong>500+</strong>
+              <strong><Counter value="500" />+</strong>
               <span>{locale === 'ru' ? 'счастливых клиентов' : 'щасливих клієнтів'}</span>
             </div>
           </div>
@@ -98,7 +99,7 @@ export default async function HomePage({ params }) {
       {/* Роботи — колода */}
       <section className="section">
         <div className="container intro__grid" style={{ alignItems: 'center' }}>
-          <div className="reveal">
+          <div className="reveal reveal--l">
             <span className="eyebrow">{dict.worksTeaser.kicker}</span>
             <h2 style={{ fontSize: 'clamp(2rem, 4.4vw, 3.2rem)', margin: '18px 0 16px' }}>{dict.worksTeaser.title}</h2>
             <p style={{ color: 'var(--ink-soft)', fontSize: '1.08rem', maxWidth: '40ch' }}>{dict.worksTeaser.text}</p>
@@ -106,7 +107,7 @@ export default async function HomePage({ params }) {
               {dict.worksTeaser.cta} <IconArrow />
             </Link>
           </div>
-          <div className="reveal reveal-d2">
+          <div className="reveal reveal--r reveal-d2">
             <StackedDeck works={works} locale={locale} dict={dict} />
           </div>
         </div>

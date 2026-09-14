@@ -6,6 +6,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ScrollReveal from '@/components/ScrollReveal';
 import Parallax from '@/components/Parallax';
+import ScrollProgress from '@/components/ScrollProgress';
 import { IconWhatsapp } from '@/components/icons';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://balloonsdecor.com.ua';
@@ -57,6 +58,7 @@ export default async function LocaleLayout({ children, params }) {
 
   return (
     <>
+      <ScrollProgress />
       <Header locale={locale} dict={dict} />
       <main>{children}</main>
       <Footer locale={locale} dict={dict} content={content} />
