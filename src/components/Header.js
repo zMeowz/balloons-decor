@@ -23,6 +23,8 @@ export default function Header({ locale, dict, logo }) {
   useEffect(() => setOpen(false), [pathname]);
 
   const base = `/${locale}`;
+  // Підписи мов на перемикачі: показуємо UA замість коду uk.
+  const localeLabel = { uk: 'UA', ru: 'RU' };
   const links = [
     { href: base, label: dict.nav.home },
     { href: `${base}/works`, label: dict.nav.works },
@@ -53,7 +55,10 @@ export default function Header({ locale, dict, logo }) {
             // eslint-disable-next-line @next/next/no-img-element
             <img className="brand__logo" src={logo} alt="Balloons Decor" />
           ) : (
-            <BrandLogo className="brand__logo-lockup" />
+            <span className="brand__stack">
+              <BrandLogo className="brand__logo-lockup" />
+              <span className="brand__city">{dict.brand.city}</span>
+            </span>
           )}
         </Link>
 
@@ -76,7 +81,7 @@ export default function Header({ locale, dict, logo }) {
                 className={l === locale ? 'active' : ''}
                 onClick={() => setLocaleCookie(l)}
               >
-                {l.toUpperCase()}
+                {localeLabel[l] || l.toUpperCase()}
               </Link>
             ))}
           </div>
@@ -92,7 +97,7 @@ export default function Header({ locale, dict, logo }) {
                 className={l === locale ? 'active' : ''}
                 onClick={() => setLocaleCookie(l)}
               >
-                {l.toUpperCase()}
+                {localeLabel[l] || l.toUpperCase()}
               </Link>
             ))}
           </div>

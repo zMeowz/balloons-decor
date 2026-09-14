@@ -39,10 +39,6 @@ export default function Hero({ locale, dict, works }) {
         <span className="vf vf--bl" aria-hidden="true" />
         <span className="vf vf--br" aria-hidden="true" />
 
-        <div className="hero__meta">
-          <span className="hero__rec"><i className="hero__recdot" />{dict.hero.kicker}</span>
-        </div>
-
         <h1 className="hero__title">
           <span className="line">{dict.hero.titleTop}</span>
           <span className="line line--thin">{dict.hero.titleBottom}</span>
