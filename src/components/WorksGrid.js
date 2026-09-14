@@ -36,8 +36,14 @@ export default function WorksGrid({ works, dict, locale }) {
       </div>
 
       <div className="works-grid">
-        {filtered.map((w) => (
-          <button key={w.id} className="work-tile" onClick={() => setSelected(w)} aria-label={title(w)}>
+        {filtered.map((w, i) => (
+          <button
+            key={w.id}
+            className="work-tile reveal"
+            style={{ transitionDelay: `${(i % 6) * 0.07}s` }}
+            onClick={() => setSelected(w)}
+            aria-label={title(w)}
+          >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={w.image_url} alt={title(w)} loading="lazy" />
             {count(w) > 1 && <span className="work-tile__multi">◨ {count(w)}</span>}
