@@ -191,6 +191,8 @@ em.accent { font-style: normal; color: var(--accent); }
   box-shadow: 0 0 14px var(--accent);
   flex-shrink: 0;
 }
+.brand__markicon { flex-shrink: 0; filter: drop-shadow(0 0 12px rgba(255, 46, 126, 0.4)); }
+.brand__logo { display: block; height: 42px; width: auto; max-width: 200px; object-fit: contain; }
 .brand__name { font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; line-height: 1; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
 .brand__sub { display: block; font-family: var(--font-sans); font-size: 0.62rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--muted); margin-top: 5px; }
 
@@ -462,6 +464,9 @@ em.accent { font-style: normal; color: var(--accent); }
 .field input:focus, .field textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,46,126,0.2); }
 .field textarea { resize: vertical; min-height: 96px; }
 .field--row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.phone-field { display: flex; align-items: stretch; }
+.phone-field__prefix { display: flex; align-items: center; padding: 0 14px; border: 1px solid var(--line-2); border-right: none; border-radius: var(--r-sm) 0 0 var(--r-sm); background: var(--bg-3); color: var(--ink-soft); font-weight: 700; white-space: nowrap; }
+.phone-field input { border-radius: 0 var(--r-sm) var(--r-sm) 0 !important; }
 .form__status { margin-top: 14px; padding: 16px; border-radius: var(--r-sm); font-size: 0.94rem; }
 .form__status--ok { background: rgba(53,208,127,0.12); color: #7be0a8; }
 .form__status--err { background: rgba(255,46,126,0.12); color: var(--accent-2); }
@@ -566,6 +571,7 @@ em.accent { font-style: normal; color: var(--accent); }
   .nav__cta { display: none; }
   .brand__sub { display: none; }
   .brand__name { font-size: 1.05rem; letter-spacing: 0.08em; }
+  .brand__logo { height: 34px; max-width: 150px; }
   .intro__points { grid-template-columns: 1fr; }
   .hero__row { align-items: flex-start; }
   .hero__title { font-size: clamp(1.85rem, 8.4vw, 2.6rem); letter-spacing: -0.03em; }
