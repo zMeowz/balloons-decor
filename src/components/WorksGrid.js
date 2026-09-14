@@ -41,9 +41,9 @@ export default function WorksGrid({ works, dict, locale }) {
       <div className="works-grid">
         {filtered.map((w, i) => (
           <button
-            key={w.id}
-            className="work-tile reveal"
-            style={{ transitionDelay: `${(i % 6) * 0.07}s` }}
+            key={`${active}-${w.id}`}
+            className="work-tile"
+            style={{ animationDelay: `${(i % 6) * 0.06}s` }}
             onClick={() => setSelected(w)}
             aria-label={title(w)}
           >
