@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 import { isAuthenticated } from '@/lib/auth';
 import { getAdminClient } from '@/lib/supabase';
 import AdminShell from '@/components/admin/AdminShell';
-import { createWork, deleteWork } from '../actions';
+import { createWork, updateWork, deleteWork } from '../actions';
 
 export const dynamic = 'force-dynamic';
 
@@ -99,22 +99,53 @@ export default async function AdminWorks() {
           <h2>Усі роботи ({works.length})</h2>
           <div className="adm-list">
             {works.map((w) => (
-              <div className="adm-item" key={w.id}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={w.image_url} alt={w.title_uk} />
-                <div className="adm-item__body">
-                  <h3>{w.title_uk}</h3>
-                  <p>
-                    {w.description_uk}{' '}
+              <details className="adm-edit" key={w.id}>
+                <summary>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={w.image_url} alt={w.title_uk} className="adm-edit__thumb" />
+                  <span className="adm-edit__title">
+                    {w.title_uk}{' '}
                     <span className="adm-badge">{w.category}</span>{' '}
                     {w.featured && <span className="adm-badge">на головній</span>}
-                  </p>
-                </div>
-                <form action={deleteWork}>
+                  </span>
+                  <span className="adm-edit__hint">Редагувати ✎</span>
+                </summary>
+                <form action={updateWork} className="adm-edit__form">
+                  <input type="hidden" name="id" value={w.id} />
+                  <div className="adm-row">
+                    <div className="adm-field"><label>Назва (укр)</label><input name="title_uk" defaultValue={w.title_uk} /></div>
+                    <div className="adm-field"><label>Назва (рус)</label><input name="title_ru" defaultValue={w.title_ru || ''} /></div>
+                  </div>
+                  <div className="adm-row">
+                    <div className="adm-field"><label>Опис (укр)</label><input name="description_uk" defaultValue={w.description_uk || ''} /></div>
+                    <div className="adm-field"><label>Опис (рус)</label><input name="description_ru" defaultValue={w.description_ru || ''} /></div>
+                  </div>
+                  <div className="adm-row">
+                    <div className="adm-field">
+                      <label>Категорія</label>
+                      <select name="category" defaultValue={w.category || 'other'}>
+                        {CATEGORIES.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
+                      </select>
+                    </div>
+                    <div className="adm-field"><label>Порядок</label><input type="number" name="sort_order" defaultValue={w.sort_order} /></div>
+                  </div>
+                  <div className="adm-field">
+                    <label style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <input type="checkbox" name="featured" defaultChecked={w.featured} style={{ width: 'auto' }} />
+                      Показувати на головній
+                    </label>
+                  </div>
+                  <div className="adm-field">
+                    <label>Замінити головне фото (необовʼязково)</label>
+                    <input type="file" name="image" accept="image/*" />
+                  </div>
+                  <button className="adm-btn" type="submit">Зберегти зміни</button>
+                </form>
+                <form action={deleteWork} className="adm-edit__delete">
                   <input type="hidden" name="id" value={w.id} />
                   <button className="adm-btn adm-btn--danger" type="submit">Видалити</button>
                 </form>
-              </div>
+              </details>
             ))}
           </div>
         </div>
