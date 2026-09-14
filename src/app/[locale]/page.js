@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import Link from 'next/link';
 import { getDictionary } from '@/i18n';
 import { getWorks, getPrices, getContent } from '@/lib/data';
@@ -6,7 +8,24 @@ import StackedDeck from '@/components/StackedDeck';
 import LeadForm from '@/components/LeadForm';
 import Counter from '@/components/Counter';
 import VideoBand from '@/components/VideoBand';
+import ServiceVideo from '@/components/ServiceVideo';
 import { IconArrow } from '@/components/icons';
+
+// Відео для карток послуг: поклади файли у public/media з назвами
+// service-1.mp4 … service-4.mp4 — і вони автоматично зʼявляться у картках
+// (за бажанням service-1.jpg поруч стане постером-заглушкою).
+function serviceMedia(i) {
+  const n = i + 1;
+  try {
+    if (fs.existsSync(path.join(process.cwd(), 'public', 'media', `service-${n}.mp4`))) {
+      const posterExists = ['jpg', 'webp', 'png'].find((ext) =>
+        fs.existsSync(path.join(process.cwd(), 'public', 'media', `service-${n}.${ext}`))
+      );
+      return { src: `/media/service-${n}.mp4`, poster: posterExists ? `/media/service-${n}.${posterExists}` : null };
+    }
+  } catch {}
+  return null;
+}
 
 export default async function HomePage({ params }) {
   const { locale } = params;
@@ -17,6 +36,7 @@ export default async function HomePage({ params }) {
     getContent(),
   ]);
   const base = `/${locale}`;
+  const serviceVideos = dict.services.items.map((_, i) => serviceMedia(i));
 
   // Мікророзмітка для Google (локальний бізнес)
   const jsonLd = {
@@ -83,7 +103,8 @@ export default async function HomePage({ params }) {
           </div>
           <div className="services__grid">
             {dict.services.items.map((s, i) => (
-              <article className="service reveal" key={i}>
+              <article className={`service reveal ${serviceVideos[i] ? 'service--media' : ''}`} key={i}>
+                {serviceVideos[i] && <ServiceVideo src={serviceVideos[i].src} poster={serviceVideos[i].poster} />}
                 {s.tag && <span className="service__tag">{s.tag}</span>}
                 <span className="service__index">/ 0{i + 1}</span>
                 <h3>{s.name}</h3>
