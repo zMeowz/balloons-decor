@@ -45,8 +45,12 @@ export default async function AdminWorks() {
             <input type="file" name="image" accept="image/*" />
           </div>
           <div className="adm-field">
-            <label>…або посилання на фото (якщо файл не завантажуєш)</label>
+            <label>…або посилання на головне фото (якщо файл не завантажуєш)</label>
             <input type="url" name="image_url" placeholder="https://..." />
+          </div>
+          <div className="adm-field">
+            <label>Додаткові фото — по одному посиланню на рядок (щоб гортати в галереї)</label>
+            <textarea name="extra_images" rows={3} placeholder={'https://...\nhttps://...'} />
           </div>
           <div className="adm-row">
             <div className="adm-field">

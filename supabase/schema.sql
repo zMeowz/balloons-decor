@@ -19,6 +19,7 @@ create table if not exists public.works (
   description_uk text default '',
   description_ru text default '',
   image_url text not null,
+  images text[] default '{}',
   category text default 'other',
   featured boolean default true,
   published boolean default true,
