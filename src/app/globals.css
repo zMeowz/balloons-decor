@@ -191,8 +191,11 @@ em.accent { font-style: normal; color: var(--accent); }
   box-shadow: 0 0 14px var(--accent);
   flex-shrink: 0;
 }
-.brand__markicon { flex-shrink: 0; filter: drop-shadow(0 0 12px rgba(255, 46, 126, 0.4)); }
 .brand__logo { display: block; height: 42px; width: auto; max-width: 200px; object-fit: contain; }
+.brand__logo-lockup { display: block; height: 38px; width: auto; color: var(--ink); }
+.brandlogo__txt { fill: var(--ink); font-family: var(--font-display); font-weight: 800; }
+.brandlogo__accent { fill: var(--accent); font-family: var(--font-display); font-weight: 800; }
+.brandlogo__ribbon { stroke: currentColor; opacity: 0.4; fill: none; }
 .brand__name { font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; line-height: 1; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
 .brand__sub { display: block; font-family: var(--font-sans); font-size: 0.62rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--muted); margin-top: 5px; }
 
@@ -572,6 +575,7 @@ em.accent { font-style: normal; color: var(--accent); }
   .brand__sub { display: none; }
   .brand__name { font-size: 1.05rem; letter-spacing: 0.08em; }
   .brand__logo { height: 34px; max-width: 150px; }
+  .brand__logo-lockup { height: 30px; }
   .intro__points { grid-template-columns: 1fr; }
   .hero__row { align-items: flex-start; }
   .hero__title { font-size: clamp(1.85rem, 8.4vw, 2.6rem); letter-spacing: -0.03em; }
