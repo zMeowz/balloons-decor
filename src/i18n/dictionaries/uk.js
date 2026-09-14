@@ -193,6 +193,7 @@ const uk = {
     errorTitle: 'Ой, щось пішло не так',
     errorText: 'Спробуйте ще раз або напишіть нам напряму в Instagram чи Telegram.',
     required: 'Заповніть, будь ласка, імʼя та телефон',
+    phoneInvalid: 'Введіть номер повністю: 10 цифр (0XX XXX XX XX)',
     orDirect: 'або звʼяжіться напряму',
   },
 

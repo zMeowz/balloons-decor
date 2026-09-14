@@ -5,8 +5,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { locales } from '@/i18n/config';
 import ThemeToggle from './ThemeToggle';
+import { IconBalloonMark } from './icons';
 
-export default function Header({ locale, dict }) {
+export default function Header({ locale, dict, logo }) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -48,11 +49,18 @@ export default function Header({ locale, dict }) {
     <header className={`header ${scrolled ? 'header--scrolled' : ''}`}>
       <div className="container header__inner">
         <Link href={base} className="brand" aria-label="Balloons Decor">
-          <span className="brand__mark" />
-          <span>
-            <span className="brand__name">Balloons Decor</span>
-            <span className="brand__sub">{dict.brand.city} · декор</span>
-          </span>
+          {logo ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img className="brand__logo" src={logo} alt="Balloons Decor" />
+          ) : (
+            <>
+              <IconBalloonMark className="brand__markicon" />
+              <span>
+                <span className="brand__name">Balloons Decor</span>
+                <span className="brand__sub">{dict.brand.city} · декор</span>
+              </span>
+            </>
+          )}
         </Link>
 
         <nav className={`nav ${open ? 'nav--open' : ''}`}>

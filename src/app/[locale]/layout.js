@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import { notFound } from 'next/navigation';
 import { locales, isValidLocale } from '@/i18n/config';
 import { getDictionary } from '@/i18n';
@@ -10,6 +12,19 @@ import ScrollProgress from '@/components/ScrollProgress';
 import { IconWhatsapp } from '@/components/icons';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://balloonsdecor.com.ua';
+
+// Логотип: поклади файл у public/media/logo.(svg|png|webp) — і він зʼявиться
+// у лівому верхньому куті замість стандартної кульки-знака.
+function detectLogo() {
+  for (const ext of ['svg', 'png', 'webp']) {
+    try {
+      if (fs.existsSync(path.join(process.cwd(), 'public', 'media', `logo.${ext}`))) {
+        return `/media/logo.${ext}`;
+      }
+    } catch {}
+  }
+  return null;
+}
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -55,11 +70,12 @@ export default async function LocaleLayout({ children, params }) {
 
   const dict = getDictionary(locale);
   const content = await getContent();
+  const logo = detectLogo();
 
   return (
     <>
       <ScrollProgress />
-      <Header locale={locale} dict={dict} />
+      <Header locale={locale} dict={dict} logo={logo} />
       <main>{children}</main>
       <Footer locale={locale} dict={dict} content={content} />
 

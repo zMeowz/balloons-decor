@@ -73,6 +73,41 @@ export function IconMapPin(props) {
   );
 }
 
+export function IconBalloonMark(props) {
+  // Логотип-знак: кластер із трьох кульок (маджента + золото + рожевий) зі стрічками.
+  return (
+    <svg viewBox="0 0 44 44" width="38" height="38" fill="none" {...props}>
+      <defs>
+        <radialGradient id="blnA" cx="38%" cy="30%" r="75%">
+          <stop offset="0%" stopColor="#ff6aa6" />
+          <stop offset="55%" stopColor="#ff2e7e" />
+          <stop offset="100%" stopColor="#c81e5e" />
+        </radialGradient>
+        <radialGradient id="blnB" cx="38%" cy="30%" r="75%">
+          <stop offset="0%" stopColor="#ffe08a" />
+          <stop offset="60%" stopColor="#e9b949" />
+          <stop offset="100%" stopColor="#b98a1f" />
+        </radialGradient>
+        <radialGradient id="blnC" cx="38%" cy="30%" r="75%">
+          <stop offset="0%" stopColor="#ffb3d1" />
+          <stop offset="60%" stopColor="#ff7ab0" />
+          <stop offset="100%" stopColor="#e0559a" />
+        </radialGradient>
+      </defs>
+      {/* стрічки */}
+      <path d="M15 22c1.6 2.6 1 4.6-1.2 7.4M22.4 20.5c.2 3-1 5-3.4 7.9M29 22c1.4 2.4 2.4 4.3 1.2 7"
+        stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.5" />
+      {/* золота кулька (позаду) */}
+      <path d="M29.5 6.4c-3.7 0-6.2 2.8-6.2 6.8 0 3.7 2.7 6.6 5.3 7.7-.2.5-.5 1-.5 1 .55.5 2.3.5 2.9 0 0 0-.3-.5-.5-1 2.6-1.1 5.3-4 5.3-7.7 0-4-2.6-6.8-6.3-6.8z" fill="url(#blnB)" />
+      {/* рожева кулька (позаду) */}
+      <path d="M14.5 6.4c-3.7 0-6.2 2.8-6.2 6.8 0 3.7 2.7 6.6 5.3 7.7-.2.5-.5 1-.5 1 .55.5 2.3.5 2.9 0 0 0-.3-.5-.5-1 2.6-1.1 5.3-4 5.3-7.7 0-4-2.6-6.8-6.3-6.8z" fill="url(#blnC)" />
+      {/* головна маджента кулька (спереду) */}
+      <path d="M22 3c-4.4 0-7.4 3.3-7.4 8 0 4.4 3.2 7.8 6.3 9.1l-.8 1.6c-.3.6.2 1.3.9 1.3h2c.7 0 1.2-.7.9-1.3l-.8-1.6c3.1-1.3 6.3-4.7 6.3-9.1 0-4.7-3-8-7.4-8z" fill="url(#blnA)" />
+      <ellipse cx="18.6" cy="9.6" rx="1.8" ry="2.7" fill="#fff" opacity="0.55" />
+    </svg>
+  );
+}
+
 export function IconSun(props) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" width="20" height="20" {...props}>
