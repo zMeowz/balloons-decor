@@ -1,6 +1,14 @@
 import { getPublicClient, isSupabaseConfigured } from './supabase';
 import { seedWorks, seedPrices, seedContent } from './seed';
 
+// Гарантуємо, що у кожної роботи є масив фото (images).
+function withImages(list) {
+  return (list || []).map((w) => ({
+    ...w,
+    images: Array.isArray(w.images) && w.images.length ? w.images : [w.image_url].filter(Boolean),
+  }));
+}
+
 // Усі функції мають «підстраховку»: якщо Supabase не налаштований або сталася
 // помилка — повертаємо демо-дані, щоб сайт ніколи не «падав» порожнім.
 
@@ -23,7 +31,7 @@ export async function getWorks({ onlyFeatured = false, category = null } = {}) {
     if (error || !data || data.length === 0) {
       return filterSeedWorks(onlyFeatured, category);
     }
-    return data;
+    return withImages(data);
   } catch {
     return filterSeedWorks(onlyFeatured, category);
   }
@@ -33,7 +41,7 @@ function filterSeedWorks(onlyFeatured, category) {
   let list = [...seedWorks];
   if (onlyFeatured) list = list.filter((w) => w.featured);
   if (category && category !== 'all') list = list.filter((w) => w.category === category);
-  return list;
+  return withImages(list);
 }
 
 export async function getPrices() {

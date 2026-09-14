@@ -52,6 +52,14 @@ export async function createWork(formData) {
   const image_url = await uploadImage(formData);
   if (!image_url) throw new Error('Додай фото або посилання на фото.');
 
+  // Додаткові фото (по одному URL на рядок) — для гортання в галереї.
+  const extra = (formData.get('extra_images') || '')
+    .toString()
+    .split(/\r?\n/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const images = [image_url, ...extra];
+
   const { error } = await supabase.from('works').insert({
     title_uk: (formData.get('title_uk') || '').toString().trim(),
     title_ru: (formData.get('title_ru') || '').toString().trim(),
@@ -59,6 +67,7 @@ export async function createWork(formData) {
     description_ru: (formData.get('description_ru') || '').toString().trim(),
     category: (formData.get('category') || 'other').toString(),
     image_url,
+    images,
     featured: formData.get('featured') === 'on',
     published: true,
     sort_order: Number(formData.get('sort_order') || 100),

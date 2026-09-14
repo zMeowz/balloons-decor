@@ -1,14 +1,16 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import Lightbox from './Lightbox';
 
 export default function WorksGrid({ works, dict, locale }) {
   const [active, setActive] = useState('all');
+  const [selected, setSelected] = useState(null);
 
   const title = (w) => (locale === 'ru' ? w.title_ru : w.title_uk) || w.title_uk;
   const desc = (w) => (locale === 'ru' ? w.description_ru : w.description_uk) || '';
+  const count = (w) => (w.images?.length ? w.images.length : 1);
 
-  // Категорії, які реально є серед робіт
   const cats = useMemo(() => {
     const set = new Set(works.map((w) => w.category).filter(Boolean));
     return Array.from(set);
@@ -35,16 +37,22 @@ export default function WorksGrid({ works, dict, locale }) {
 
       <div className="works-grid">
         {filtered.map((w) => (
-          <div key={w.id} className="work-tile reveal in-view">
+          <button key={w.id} className="work-tile" onClick={() => setSelected(w)} aria-label={title(w)}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={w.image_url} alt={title(w)} loading="lazy" />
-            <div className="work-tile__cap">
-              <h3>{title(w)}</h3>
-              {desc(w) && <p>{desc(w)}</p>}
-            </div>
-          </div>
+            {count(w) > 1 && <span className="work-tile__multi">◨ {count(w)}</span>}
+            <span className="work-tile__zoom" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M11 8v6M8 11h6" strokeLinecap="round"/></svg>
+            </span>
+            <span className="work-tile__cap">
+              <span className="work-tile__cap-title">{title(w)}</span>
+              {desc(w) && <span className="work-tile__cap-desc">{desc(w)}</span>}
+            </span>
+          </button>
         ))}
       </div>
+
+      <Lightbox work={selected} locale={locale} dict={dict} onClose={() => setSelected(null)} />
     </div>
   );
 }
