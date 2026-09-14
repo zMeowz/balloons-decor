@@ -86,6 +86,31 @@ export async function deleteWork(formData) {
   revalidatePath('/admin/works');
 }
 
+export async function updateWork(formData) {
+  requireAuth();
+  const supabase = db();
+  const id = formData.get('id');
+  const patch = {
+    title_uk: (formData.get('title_uk') || '').toString().trim(),
+    title_ru: (formData.get('title_ru') || '').toString().trim(),
+    description_uk: (formData.get('description_uk') || '').toString().trim(),
+    description_ru: (formData.get('description_ru') || '').toString().trim(),
+    category: (formData.get('category') || 'other').toString(),
+    featured: formData.get('featured') === 'on',
+    sort_order: Number(formData.get('sort_order') || 100),
+  };
+  // Заміна головного фото — тільки якщо додали нове.
+  const newUrl = await uploadImage(formData);
+  if (newUrl) {
+    patch.image_url = newUrl;
+    patch.images = [newUrl];
+  }
+  const { error } = await supabase.from('works').update(patch).eq('id', id);
+  if (error) throw new Error(error.message);
+  refreshSite();
+  revalidatePath('/admin/works');
+}
+
 export async function toggleWorkFeatured(formData) {
   requireAuth();
   const id = formData.get('id');
@@ -111,6 +136,24 @@ export async function createPrice(formData) {
     published: true,
     sort_order: Number(formData.get('sort_order') || 100),
   });
+  if (error) throw new Error(error.message);
+  refreshSite();
+  revalidatePath('/admin/prices');
+}
+
+export async function updatePrice(formData) {
+  requireAuth();
+  const id = formData.get('id');
+  const { error } = await db().from('prices').update({
+    name_uk: (formData.get('name_uk') || '').toString().trim(),
+    name_ru: (formData.get('name_ru') || '').toString().trim(),
+    description_uk: (formData.get('description_uk') || '').toString().trim(),
+    description_ru: (formData.get('description_ru') || '').toString().trim(),
+    unit_uk: (formData.get('unit_uk') || '').toString().trim(),
+    unit_ru: (formData.get('unit_ru') || '').toString().trim(),
+    price_from: Number(formData.get('price_from') || 0),
+    sort_order: Number(formData.get('sort_order') || 100),
+  }).eq('id', id);
   if (error) throw new Error(error.message);
   refreshSite();
   revalidatePath('/admin/prices');
