@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import DateField from './DateField';
 
 // Формат українського номера: 10 цифр (0XX XXX XX XX).
 function formatUaPhone(digits) {
@@ -90,7 +91,14 @@ export default function LeadForm({ dict, content, locale, source = 'site' }) {
         </div>
         <div>
           <label htmlFor="lf-date">{dict.form.date}</label>
-          <input id="lf-date" type="date" value={form.date} onChange={update('date')} min={dateBounds.min} max={dateBounds.max} />
+          <DateField
+            id="lf-date"
+            locale={locale}
+            value={form.date}
+            onChange={(v) => setForm((f) => ({ ...f, date: v }))}
+            min={dateBounds.min}
+            max={dateBounds.max}
+          />
         </div>
       </div>
 

@@ -470,6 +470,50 @@ em.accent { font-style: normal; color: var(--accent); }
 .phone-field { display: flex; align-items: stretch; }
 .phone-field__prefix { display: flex; align-items: center; padding: 0 14px; border: 1px solid var(--line-2); border-right: none; border-radius: var(--r-sm) 0 0 var(--r-sm); background: var(--bg-3); color: var(--ink-soft); font-weight: 700; white-space: nowrap; }
 .phone-field input { border-radius: 0 var(--r-sm) var(--r-sm) 0 !important; }
+
+/* --- Власний вибір дати --- */
+.datefield { position: relative; }
+.datefield__btn {
+  width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 14px 16px; border-radius: var(--r-sm); border: 1px solid var(--line-2);
+  background: var(--bg); font-family: inherit; font-size: 1rem; color: var(--ink); transition: 0.3s;
+}
+.datefield__btn:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,46,126,0.2); }
+.datefield__btn.is-placeholder span { color: var(--muted); }
+.datefield__btn svg { color: var(--muted); flex-shrink: 0; }
+.cal {
+  position: absolute; z-index: 60; top: calc(100% + 8px); left: 0; width: min(320px, 88vw);
+  padding: 14px; border-radius: var(--r); border: 1px solid var(--line-2);
+  background: var(--bg-2); box-shadow: var(--shadow);
+}
+.cal__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.cal__title { font-family: var(--font-display); font-weight: 700; font-size: 0.98rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink); }
+.cal__nav {
+  width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: var(--r-sm); border: 1px solid var(--line); background: var(--bg-3); color: var(--ink);
+}
+.cal__nav:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+.cal__nav:disabled { opacity: 0.3; cursor: default; }
+.cal__grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+.cal__grid--wd { margin-bottom: 4px; }
+.cal__wd { text-align: center; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; color: var(--muted); padding: 4px 0; }
+.cal__wd.is-weekend { color: var(--accent-2); }
+.cal__day {
+  aspect-ratio: 1; display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid transparent; border-radius: 9px; background: transparent;
+  font-family: inherit; font-size: 0.92rem; color: var(--ink); transition: 0.15s;
+}
+.cal__day.is-empty { visibility: hidden; }
+.cal__day:hover:not(:disabled):not(.is-selected) { border-color: var(--accent); color: var(--accent); }
+.cal__day:disabled { color: var(--muted); opacity: 0.35; cursor: default; }
+.cal__day.is-today { border-color: var(--line-2); }
+.cal__day.is-selected { background: var(--accent); color: #fff; font-weight: 700; box-shadow: var(--glow); }
+.cal__foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line); }
+.cal__foot::before { content: ''; }
+.cal__link { background: transparent; border: none; font-family: inherit; font-size: 0.88rem; font-weight: 600; color: var(--ink-soft); padding: 4px 6px; }
+.cal__link:hover:not(:disabled) { color: var(--ink); }
+.cal__link--accent { color: var(--accent); margin-left: auto; }
+.cal__link:disabled { opacity: 0.4; cursor: default; }
 .form__status { margin-top: 14px; padding: 16px; border-radius: var(--r-sm); font-size: 0.94rem; }
 .form__status--ok { background: rgba(53,208,127,0.12); color: #7be0a8; }
 .form__status--err { background: rgba(255,46,126,0.12); color: var(--accent-2); }
