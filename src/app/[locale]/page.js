@@ -5,6 +5,7 @@ import Hero from '@/components/Hero';
 import StackedDeck from '@/components/StackedDeck';
 import LeadForm from '@/components/LeadForm';
 import Counter from '@/components/Counter';
+import VideoBand from '@/components/VideoBand';
 import { IconArrow } from '@/components/icons';
 
 export default async function HomePage({ params }) {
@@ -159,6 +160,9 @@ export default async function HomePage({ params }) {
           </div>
         </div>
       </section>
+
+      {/* Смуга з фоновим відео (діти біля арки) */}
+      <VideoBand locale={locale} dict={dict} fallbackImage={works[3]?.image_url || works[0]?.image_url} />
 
       {/* Відгуки (темна секція) */}
       <section className="section section--dark reviews" style={{ position: 'relative', overflow: 'hidden' }}>
