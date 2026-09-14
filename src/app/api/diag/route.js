@@ -7,8 +7,22 @@ import { getWorks } from '@/lib/data';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+export async function GET(request) {
   const out = { configured: isSupabaseConfigured() };
+
+  // Перевіряємо, чи реально віддається статична демо-картинка на цьому домені.
+  try {
+    const host = request.headers.get('host');
+    const proto = request.headers.get('x-forwarded-proto') || 'https';
+    const imgUrl = `${proto}://${host}/works/gallery-4.jpg`;
+    out.imageUrlTested = imgUrl;
+    const r = await fetch(imgUrl, { cache: 'no-store' });
+    out.imageStatus = r.status;
+    out.imageContentType = r.headers.get('content-type');
+    out.imageBytes = r.headers.get('content-length');
+  } catch (e) {
+    out.imageFetchError = String(e?.message || e);
+  }
 
   try {
     const works = await getWorks();
