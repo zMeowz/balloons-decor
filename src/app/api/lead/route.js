@@ -84,60 +84,11 @@ export async function POST(request) {
   const tgOk = tgErr === null;
   const dbOk = dbErr === null;
 
-  // Заявка вважається прийнятою, якщо спрацював хоча б один канал.
+  // Заявка прийнята, якщо спрацював хоча б один канал (база або Telegram).
   if (!tgOk && !dbOk) {
-    console.warn('[lead] delivery failed:', { tgErr, dbErr, lead });
-    return NextResponse.json({ ok: false, error: 'delivery_failed', tg: tgErr, db: dbErr }, { status: 500 });
+    console.warn('[lead] delivery failed:', { tgErr, dbErr });
+    return NextResponse.json({ ok: false, error: 'delivery_failed' }, { status: 500 });
   }
 
-  return NextResponse.json({ ok: true, tg: tgOk, db: dbOk });
-}
-
-// Діагностика: відкрий /api/lead у браузері, щоб побачити, що налаштовано.
-export async function GET() {
-  const has = (v) => Boolean(process.env[v] && String(process.env[v]).trim());
-
-  let leads_table = 'not checked';
-  const supabase = getAdminClient();
-  if (supabase) {
-    // Тестовий запис у таблицю заявок (одразу видаляємо) — щоб побачити реальну причину.
-    const { data, error } = await supabase
-      .from('leads')
-      .insert({ name: '__healthcheck__', phone: '0000000000', source: 'healthcheck', status: 'new' })
-      .select('id')
-      .single();
-    if (error) {
-      leads_table =
-        'INSERT ERROR | message: ' + (error.message || '(empty)') +
-        ' | code: ' + (error.code || '-') +
-        ' | details: ' + (error.details || '-') +
-        ' | hint: ' + (error.hint || '-');
-    } else {
-      leads_table = 'ok (insert works)';
-      await supabase.from('leads').delete().eq('id', data.id);
-    }
-  } else {
-    leads_table = 'no service_role key';
-  }
-
-  let telegram = 'not configured';
-  if (has('TELEGRAM_BOT_TOKEN')) {
-    try {
-      const r = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/getMe`);
-      const j = await r.json();
-      telegram = j.ok ? 'token OK: @' + j.result.username : 'TOKEN ERROR: ' + (j.description || '');
-    } catch (e) {
-      telegram = 'fetch error: ' + e.message;
-    }
-  }
-
-  return NextResponse.json({
-    supabase_url: has('NEXT_PUBLIC_SUPABASE_URL'),
-    supabase_anon: has('NEXT_PUBLIC_SUPABASE_ANON_KEY'),
-    service_role: has('SUPABASE_SERVICE_ROLE_KEY'),
-    telegram_token: has('TELEGRAM_BOT_TOKEN'),
-    telegram_chat: has('TELEGRAM_CHAT_ID'),
-    telegram_check: telegram,
-    leads_table,
-  });
+  return NextResponse.json({ ok: true });
 }
