@@ -33,7 +33,15 @@ export default function Hero({ locale, dict, works }) {
       <div className="hero__veil" aria-hidden="true" />
 
       <div className="container hero__inner hero-anim">
-        <span className="hero__kicker">{dict.hero.kicker}</span>
+        {/* Кутики видошукача — мотив «ми кадруємо ваші миті» */}
+        <span className="vf vf--tl" aria-hidden="true" />
+        <span className="vf vf--tr" aria-hidden="true" />
+        <span className="vf vf--bl" aria-hidden="true" />
+        <span className="vf vf--br" aria-hidden="true" />
+
+        <div className="hero__meta">
+          <span className="hero__rec"><i className="hero__recdot" />{dict.hero.kicker}</span>
+        </div>
 
         <h1 className="hero__title">
           <span className="line">{dict.hero.titleTop}</span>
@@ -42,7 +50,7 @@ export default function Hero({ locale, dict, works }) {
         </h1>
 
         <div className="hero__row">
-          <p className="hero__lead">{dict.hero.lead}</p>
+          <p className="hero__lead"><span>{dict.hero.lead}</span></p>
           <div className="hero__actions">
             <Link href={`${base}/contact`} className="btn btn--primary btn--lg">
               {dict.hero.ctaPrimary} <IconArrow />
